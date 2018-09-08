@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button_locked_slider).setOnClickListener(this);
         findViewById(R.id.button_custom_icon).setOnClickListener(this);
 
-        final SlideToActView sta = (SlideToActView)findViewById(R.id.welcome_slider);
+        final SlideToActView sta = findViewById(R.id.welcome_slider);
         sta.setOnSlideToActAnimationEventListener(new SlideToActView.OnSlideToActAnimationEventListener() {
                                                       @Override
                                                       public void onSlideCompleteAnimationStarted(SlideToActView view, float threshold) {

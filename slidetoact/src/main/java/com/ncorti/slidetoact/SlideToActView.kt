@@ -24,8 +24,10 @@ import android.util.Xml
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewOutlineProvider
+import android.view.animation.Animation
 import android.view.animation.AnticipateOvershootInterpolator
 import android.view.animation.OvershootInterpolator
+import android.view.animation.RotateAnimation
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 
@@ -134,7 +136,7 @@ class SlideToActView(context: Context,
     private val mDrawableArrow: VectorDrawableCompat
 
     /** Tick drawable, is actually an AnimatedVectorDrawable */
-    private val mDrawableTick: Drawable
+    private var mDrawableTick: Drawable
     private var mFlagDrawTick: Boolean = false
 
     /** The icon for the drawable */
@@ -376,6 +378,11 @@ class SlideToActView(context: Context,
             }
             return true
         }
+        else if(event != null && !isEnabled && checkInsideOutsideButton(event.x, event.y)){
+            clearAnimation()
+            resetSlider()
+            return true
+        }
         return super.onTouchEvent(event)
     }
 
@@ -391,6 +398,10 @@ class SlideToActView(context: Context,
      */
     private fun checkInsideButton(x: Float, y: Float): Boolean {
         return (0 < y && y < mAreaHeight && mPosition < x && x < (mAreaHeight + mPosition))
+    }
+
+    private fun checkInsideOutsideButton(x: Float, y: Float): Boolean {
+        return (mOuterRect.contains(x, y))
     }
 
     /**
@@ -608,6 +619,11 @@ class SlideToActView(context: Context,
         } else {
             (mDrawableTick as AnimatedVectorDrawableCompat).stop()
         }
+    }
+
+    public fun setIcon(d: Int) {
+        mIcon = d
+        invalidateArea()
     }
 
     /**
